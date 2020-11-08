@@ -44,5 +44,19 @@
        app:layout_constraintRight_toRightOf="parent"
        android:text="@string/right"
        />
+   <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="@string/bottom"
+        />
+   <Button
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintRight_toRightOf="parent"
+       android:text="@string/rb"
+       />
 
 </android.support.constraint.ConstraintLayout>

@@ -1,14 +1,10 @@
 package com.example.calculator_1;
 
-import android.widget.EditText;
+import java.util.Stack;
 
 public class Expression {
-
-    public Expression(){
-
-    }
-    public static StringBuffer toPostfix(String infix){     //中缀表达式转化成后缀表达式
-        Stack<String> stack = new SeqStack<String>(infix.length());      //运算符栈
+    public static  StringBuffer toPostfix(String infix){     //中缀表达式转化成后缀表达式
+        Stack<String> stack = new Stack<>();      //运算符栈
         StringBuffer postfix = new StringBuffer(infix.length()*2);    //后缀表达式字符串
         int i=0;
         while(i<infix.length())
@@ -17,18 +13,19 @@ public class Expression {
             switch (ch){
                 case '+':
                 case '-':
-                    while (!stack.isEmpty()&&!stack.peek().equals(")"))
+                    while (!stack.isEmpty()&& !stack.peek().equals("(")) {
                         postfix.append(stack.pop());
-                    stack.push(ch+"");
+                    }
+                    stack.push(ch+" ");
                     i++;break;
                 case '*':
                 case '/':
                     while (!stack.isEmpty()&&(stack.peek().equals("*")||stack.peek().equals("/")))
                         postfix.append(stack.pop());
-                    stack.push(ch+"");
+                    stack.push(ch+" ");
                     i++;break;
                 case '(':
-                    stack.push(ch+"");
+                    stack.push(ch+" ");
                     i++;break;
                 case ')':
                     String out = stack.pop();
@@ -38,51 +35,65 @@ public class Expression {
                     }
                     i++;break;
                 default:
-                    while (i<infix.length()&&ch>='0'&&ch<='9'){
+                    while (i<infix.length()&&ch>='0'&&ch<='9'||ch=='.'){
                         postfix.append(ch);
                         i++;
                         if(i<infix.length())
                             ch = infix.charAt(i);
                     }
                     postfix.append(" ");
-        }
+            }
         }
         while (!stack.isEmpty())
             postfix.append(stack.pop());
         return postfix;
     }
-    public static int toValue(StringBuffer postfix){
-        Stack<Integer> stack = new LinkedStack<Integer>();
-        int value =0;
-        for(int i=0;i<postfix.length();i++){
-            char ch = postfix.charAt(i);
-            if(ch>'0'&&ch<='9'){
-                value = 0;
-                while (ch != ' ') {
-                    value=value*10+ch-'0';
-                    ch = postfix.charAt(++i);
-                }
-                stack.push(value);
-            }
+    public static  Double toValue(StringBuffer postfix){
+        Stack<Double> stack = new Stack<>();
+        double value = 0.0;
+        String string = postfix.toString();
+        String[] str = string.split(" ");  //以空格作为标识放入String字符串数组
+
+        for (String s : str) {
+            //运算后的数入栈
+            if(isNum(s)) {             //判断该数组元素是否是数字
+                value = Double.parseDouble(s);
+            }                               //当当前数组元素类型不是数字时，操作数栈出栈两个元素运算
             else {
-                if(ch!=' '){
-                    int y = stack.pop(),x=stack.pop();
-                    switch (ch){
-                        case '+':value = x+y;break;
-                        case '-':value = x-y;break;
-                        case '*':value =x*y;break;
-                        case '/':value =x/y;break;
-                    }
-                    System.out.print(x+(ch+"")+y+"="+value+",");
-                    stack.push(value);
+                Double y = stack.pop();
+                Double x = stack.pop();
+                switch (s) {
+                    case "+":
+                        value = x + y;
+                        break;
+                    case "-":
+                        value = x - y;
+                        break;
+                    case "*":
+                        value = x * y;
+                        break;
+                    case "/":
+                        value = x / y;
+                        break;
                 }
             }
+            stack.push(value);
         }
+
+
         return stack.pop();
     }
-    public static void main(String args[]){
-        String infix = "3+2-5*0";
+
+    public static boolean isNum(String s) {
+        boolean is = false;
+        for(int i=0;i<s.length();i++) {
+            is = Character.isDigit(s.charAt(i));
+        }
+        return is;
+    }
+    public String calculate(String infix){
         StringBuffer postfix = toPostfix(infix);
-        System.out.println("infix="+infix+"\npostfix="+postfix+"\nvalue="+toValue(postfix));
+        double result = toValue(postfix);
+        return result+"";
     }
 }
