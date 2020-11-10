@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Calculator_1</string>
-    <string name="out">退出</string>
+    <string name="app_name">calculator_1</string>
+    <string name="out">out</string>
     <string name="del">←</string>
     <string name="pai">Π</string>
     <string name="_7">7</string>
@@ -50,5 +50,5 @@
     <string name="_8scale">8进制→</string>
     <string name="_16scale">16进制→</string>
     <string name="back">back</string>
-    <string name="welcome">欢迎光临本计算器</string>
+    <string name="welcome">欢迎光临</string>
 </resources>

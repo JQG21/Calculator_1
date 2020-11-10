@@ -2,6 +2,7 @@ package com.example.calculator_1;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -199,7 +200,7 @@ public class MainActivity extends AppCompatActivity{
         pai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                str.append("3.14");
+                str.append(Math.PI+"");
                 edit_box.setText(str);
                 edit_box.setSelection(edit_box.getText().length());
             }
@@ -238,7 +239,7 @@ public class MainActivity extends AppCompatActivity{
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(MainActivity.this,change.class));
             }
         });
         quit.setOnClickListener(new View.OnClickListener() {
@@ -253,62 +254,74 @@ public class MainActivity extends AppCompatActivity{
             sin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    double result = getSin(str+"");
+                    String r = result+"";
+                    edit_box.setText(r);
                 }
             });
             cos.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-
+                    double result = getCos(str.toString());
+                    String r = result+"";
+                    edit_box.setText(r);
                 }
             });
             tan.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    double result = getTan(str.toString());
+                    String r = result+"";
+                    edit_box.setText(r);
                 }
             });
             factorial.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    str.append("!");
-                    edit_box.setText(str);
-                    edit_box.setSelection(edit_box.getText().length());
+
                 }
             });
             square.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String s = str.toString();
-                    edit_box.setText(s);
+                    double result = getSquare(str+"");
+                    String r = result+"";
+                    edit_box.setText(r);
                 }
             });
             help.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                    builder.setMessage("这是一个帮助").setTitle("");
-                    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    builder.setMessage("这是一个帮助").setTitle("帮助框");
+                    builder.setPositiveButton("返回", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            Toast.makeText(MainActivity.this,"这是一个帮助",Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this,"已返回",Toast.LENGTH_LONG).show();
                         }
                     });
+                    builder.show();
                 }
             });
 
         } else if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             Log.i("info","portrait"); // 竖屏
         }
-
-        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-            Log.i("info","landscape"); // 横屏
-
-
-        }
-        else if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            Log.i("info","portrait"); // 竖屏
-        }
+    }
+    public double getSin(String string){
+        double a = Double.parseDouble(string);
+        return Math.sin(a*180/Math.PI);
+    }
+    public double getCos(String string){
+        double a = Double.parseDouble(string);
+        return Math.cos(a*180/Math.PI);
+    }
+    public double getTan(String string){
+        double a = Double.parseDouble(string);
+        return Math.sin(a*180/Math.PI);
+    }
+    public double getSquare(String string){
+        double a = Double.parseDouble(string);
+        return Math.pow(a,2);
     }
 }
