@@ -6,6 +6,7 @@ public class Expression {
     public static  StringBuffer toPostfix(String infix){     //中缀表达式转化成后缀表达式
         Stack<String> stack = new Stack<>();      //运算符栈
         StringBuffer postfix = new StringBuffer(infix.length()*2);    //后缀表达式字符串
+
         int i=0;
         while(i<infix.length())
         {
@@ -13,11 +14,13 @@ public class Expression {
             switch (ch){
                 case '+':
                 case '-':
-                    while (!stack.isEmpty()&& !stack.peek().equals("(")) {
+                    while (!stack.isEmpty() && !stack.lastElement().equals("(")) { // �жϳ�ջ
                         postfix.append(stack.pop());
                     }
-                    stack.push(ch+" ");
-                    i++;break;
+                    stack.push(ch + " ");
+                    i++;
+                    break;
+
                 case '*':
                 case '/':
                     while (!stack.isEmpty()&&(stack.peek().equals("*")||stack.peek().equals("/")))
@@ -25,15 +28,16 @@ public class Expression {
                     stack.push(ch+" ");
                     i++;break;
                 case '(':
-                    stack.push(ch+" ");
+                    stack.push(ch+"");
                     i++;break;
                 case ')':
                     String out = stack.pop();
-                    while (out!=null&&!out.equals("(")){
+                    while (out != null && !out.equals("(")) {
                         postfix.append(out);
                         out = stack.pop();
                     }
-                    i++;break;
+                    i++;
+                    break;
                 default:
                     while (i<infix.length()&&ch>='0'&&ch<='9'||ch=='.'){
                         postfix.append(ch);
@@ -79,8 +83,6 @@ public class Expression {
             }
             stack.push(value);
         }
-
-
         return stack.pop();
     }
 
@@ -90,10 +92,5 @@ public class Expression {
             is = Character.isDigit(s.charAt(i));
         }
         return is;
-    }
-    public String calculate(String infix){
-        StringBuffer postfix = toPostfix(infix);
-        double result = toValue(postfix);
-        return result+"";
     }
 }

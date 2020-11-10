@@ -147,5 +147,4 @@
           android:textSize="30sp"
           />
    </GridLayout>
-
 </android.support.constraint.ConstraintLayout>
